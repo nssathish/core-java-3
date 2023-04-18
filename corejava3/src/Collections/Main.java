@@ -7,5 +7,6 @@ public class Main {
         ComparableDemo.show();
         QueueDemo.show();
         SetDemo.show();
+        MapDemo.show();
     }
 }
