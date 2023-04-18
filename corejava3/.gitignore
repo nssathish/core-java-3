@@ -1,0 +1,11 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/.idea/*
+../out/*
+*.class
+../.DS_Store
+.DS_Store
+.idea/vcs.xml
+src/.DS_Store
+.idea/workspace.xml

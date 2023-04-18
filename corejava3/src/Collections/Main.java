@@ -6,5 +6,6 @@ public class Main {
         ListDemo.show();
         ComparableDemo.show();
         QueueDemo.show();
+        SetDemo.show();
     }
 }
