@@ -6,5 +6,6 @@ public class Main {
         LambdasDemo.showMethodRef();
         ConsumerInterface.show();
         SupplierInterface.show();
+        FunctionInterface.show();
     }
 }
