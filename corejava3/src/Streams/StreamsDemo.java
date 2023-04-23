@@ -9,6 +9,56 @@ public class StreamsDemo {
         createStreamsDemo();
         mapStreamDemo();
         filterStreamDemo();
+        sliceStreamDemo();
+    }
+
+    private static void sliceStreamDemo() {
+        var movies = List.of(
+                new Movie("a", 10),
+                new Movie("b", 20),
+                new Movie("c", 30)
+        );
+
+        //combination of the below can be used for pagination of results
+        //returned from an API
+        movies.stream()
+                .limit(2)
+                .forEach(movie -> System.out.println(movie.getTitle()));
+        movies.stream()
+                .skip(2)
+                .forEach(movie -> System.out.println(movie.getTitle()));
+
+        //1000 movies in the system
+        //10 movies per page - 'pageSize'
+        //go to page 3 - 'pageNumber'
+        //this can be achieved by the following slicing
+        //.skip((pageNumber - 1) * pageSize) - skips first 20 movies
+        //.limit(pageSize) - 3 page to have next 10 movies
+        movies.stream()
+                .skip(20)
+                .limit(10)
+                .forEach(movie -> System.out.println(movie.getTitle()));
+
+        //takeWhile vs filter()
+        System.out.println("takeWhile() vs filter()");
+        movies = List.of(
+                new Movie("a", 10),
+                new Movie("b", 30),
+                new Movie("c", 5),
+                new Movie("d", 20),
+                new Movie("e", 40)
+        );
+        movies.stream()
+                .takeWhile(movie -> movie.getLikes() < 30)
+                .forEach(movie -> System.out
+                .println(movie.getTitle())); // this prints only one movie as the stream breaks IMMEDIATELY on first failure
+
+        //dropWhile vs filter()
+        System.out.println("dropWhile() vs filter()");
+        movies.stream()
+                .dropWhile(movie -> movie.getLikes() < 30)
+                .forEach(movie -> System.out
+                .println(movie.getTitle())); // this prints 1 movie as the stream breaks IMMEDIATELY on first failure
     }
 
     private static void filterStreamDemo() {
