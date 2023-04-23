@@ -7,5 +7,6 @@ public class Main {
         ConsumerInterface.show();
         SupplierInterface.show();
         FunctionInterface.show();
+        PredicateInterface.show();
     }
 }
