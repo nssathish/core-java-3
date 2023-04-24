@@ -1,10 +1,5 @@
 package Streams;
-import java.util.List;
-import java.util.Comparator;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Collection;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -25,6 +20,45 @@ public class StreamsDemo {
         sortStreamDemo();
         uniqueElementsFromStreamDemo();
         peekElementsInStreamDemo();
+        reducersDemo();
+    }
+
+    private static void reducersDemo() {
+        System.out.println("Stream Reducers");
+        //count
+        System.out.println(movies.stream()
+                .count());
+
+        //anyMatch, allMatch and noneMatch
+        Predicate<Movie> predicate = movie -> movie.getLikes() > 30;
+        System.out.println(movies.stream().anyMatch(predicate));
+        System.out.println(movies.stream().allMatch(predicate));
+        System.out.println(movies.stream().noneMatch(predicate));
+
+        //findFirst, findAny
+        System.out.println(movies.stream().findAny().get().getTitle());
+        System.out.println(movies.stream().findFirst().get().getTitle());
+
+        //max, min
+        var max = movies.stream()
+                .max(Comparator.comparing(movie -> movie.getLikes()))
+                .get();
+        System.out.println(max.getTitle());
+        var min = movies.stream()
+                .min(Comparator.comparing(Movie::getLikes))
+                .get();
+        System.out.println(min.getTitle());
+
+        //reduce()
+        Optional<Integer> sum = movies.stream()
+                .map(Movie::getLikes)
+                .reduce((a, b) -> a + b);
+        System.out.println(sum.orElse(0));
+
+        var intSum = movies.stream()
+                .map(Movie::getLikes)
+                .reduce(0, Integer::sum);
+        System.out.println(intSum);
     }
 
     private static void peekElementsInStreamDemo() {
