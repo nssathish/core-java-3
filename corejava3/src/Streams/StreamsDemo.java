@@ -1,8 +1,11 @@
 package Streams;
 import java.util.*;
+import java.util.function.DoubleToIntFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class StreamsDemo {
@@ -26,6 +29,17 @@ public class StreamsDemo {
         collectorsDemo();
         groupingElementsDemo();
         partitioningElementsDemo();
+        primitiveTypeStreamsDemo();
+    }
+
+    private static void primitiveTypeStreamsDemo() {
+        System.out.println("Primitive Type Streams");
+        IntStream.range(1, 5).forEach(System.out::println);
+        IntStream.rangeClosed(1, 5).forEach(System.out::println);
+
+        IntStream.of(1, 2, 3, 4, 100).forEach(System.out::println);
+        DoubleStream.generate(() -> Math.random()).limit(10).forEach(System.out::println);
+        IntStream.iterate(1, a -> a + 1).limit(20).forEach(System.out::println);
     }
 
     private static void partitioningElementsDemo() {
