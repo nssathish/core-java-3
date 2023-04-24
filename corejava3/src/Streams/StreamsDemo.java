@@ -1,10 +1,22 @@
 package Streams;
-
-import java.util.*;
+import java.util.List;
+import java.util.Comparator;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class StreamsDemo {
+    private static List<Movie> movies = List.of(
+            new Movie("a", 10),
+            new Movie("a", 15),
+            new Movie("b", 20),
+            new Movie("c", 30),
+            new Movie("d", 40)
+    );
+
     public static void show() {
         createStreamsDemo();
         mapStreamDemo();
@@ -16,14 +28,6 @@ public class StreamsDemo {
     }
 
     private static void peekElementsInStreamDemo() {
-        var movies = List.of(
-                new Movie("a", 10),
-                new Movie("a", 15),
-                new Movie("b", 20),
-                new Movie("c", 30),
-                new Movie("d", 40)
-        );
-
         movies.stream()
                 .peek(movie -> System.out.println("filtered: " + movie.getTitle()))
                 .map(Movie::getTitle)
@@ -33,13 +37,6 @@ public class StreamsDemo {
 
     private static void uniqueElementsFromStreamDemo() {
         System.out.println("Unique elements from Stream Demo");
-        var movies = List.of(
-          new Movie("a", 10),
-          new Movie("a", 15),
-          new Movie("b", 20),
-          new Movie("c", 30),
-          new Movie("d", 40)
-        );
 
         movies.stream()
                 .map(movie -> movie.getTitle())
@@ -49,11 +46,6 @@ public class StreamsDemo {
 
     private static void sortStreamDemo() {
         System.out.println("Sort Stream Demo");
-        var movies = List.of(
-                new Movie("a", 10),
-                new Movie("b", 20),
-                new Movie("c", 30)
-        );
         movies.stream()
                 .sorted((mov1, mov2) -> mov1.getTitle().compareTo(mov2.getTitle()))
                 .forEach(movie -> System.out.println(movie.getTitle()));
@@ -70,12 +62,6 @@ public class StreamsDemo {
     }
 
     private static void sliceStreamDemo() {
-        var movies = List.of(
-                new Movie("a", 10),
-                new Movie("b", 20),
-                new Movie("c", 30)
-        );
-
         //combination of the below can be used for pagination of results
         //returned from an API
         movies.stream()
@@ -119,12 +105,6 @@ public class StreamsDemo {
     }
 
     private static void filterStreamDemo() {
-        var movies = List.of(
-                new Movie("a", 10),
-                new Movie("b", 15),
-                new Movie("c", 20)
-        );
-
         Predicate<Movie> popularMovies = movie -> movie.getLikes() > 10;
         movies
                 .stream()
@@ -134,11 +114,6 @@ public class StreamsDemo {
     }
 
     private static void mapStreamDemo() {
-        var movies = List.of(
-                new Movie("a", 10),
-                new Movie("b", 12),
-                new Movie("c", 15)
-        );
         movies.stream()
                 .map(movie -> movie.getLikes())
                 .forEach(likes -> System.out.println(likes));
