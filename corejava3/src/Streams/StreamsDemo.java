@@ -10,6 +10,46 @@ public class StreamsDemo {
         mapStreamDemo();
         filterStreamDemo();
         sliceStreamDemo();
+        sortStreamDemo();
+        uniqueElementsFromStreamDemo();
+    }
+
+    private static void uniqueElementsFromStreamDemo() {
+        System.out.println("Unique elements from Stream Demo");
+        var movies = List.of(
+          new Movie("a", 10),
+          new Movie("a", 15),
+          new Movie("b", 20),
+          new Movie("c", 30),
+          new Movie("d", 40)
+        );
+
+        movies.stream()
+                .map(movie -> movie.getTitle())
+                .distinct()
+                .forEach(System.out::println);
+    }
+
+    private static void sortStreamDemo() {
+        System.out.println("Sort Stream Demo");
+        var movies = List.of(
+                new Movie("a", 10),
+                new Movie("b", 20),
+                new Movie("c", 30)
+        );
+        movies.stream()
+                .sorted((mov1, mov2) -> mov1.getTitle().compareTo(mov2.getTitle()))
+                .forEach(movie -> System.out.println(movie.getTitle()));
+        movies.stream()
+                .sorted(Comparator.comparing(movie -> movie.getTitle())) //Comparator.Comparing requires Comparable Inteface implementaiton
+                .forEach(movie -> System.out.println(movie.getTitle()));
+        movies.stream()
+                .sorted(Comparator.comparing(Movie::getTitle).reversed())
+                .forEach(movie -> System.out.println(movie.getTitle()));
+
+        movies.stream()
+                //.sorted(Comparator.comparing((movie) -> movie.getTitle()).reversed()) //FOR SOME REASON THIS THROWS EXCEPTION
+                .forEach(movie -> System.out.println(movie.getTitle()));
     }
 
     private static void sliceStreamDemo() {

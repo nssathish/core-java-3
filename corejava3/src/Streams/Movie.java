@@ -1,6 +1,8 @@
 package Streams;
 
-public class Movie {
+import java.util.Comparator;
+
+public class Movie implements Comparable<Movie> {
     private String title;
     private int likes;
 
@@ -23,5 +25,10 @@ public class Movie {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    @Override
+    public int compareTo(Movie o) {
+        return 0;
     }
 }
