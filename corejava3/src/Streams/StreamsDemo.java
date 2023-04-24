@@ -7,11 +7,11 @@ import java.util.stream.Stream;
 
 public class StreamsDemo {
     private static List<Movie> movies = List.of(
-            new Movie("a", 10),
-            new Movie("a", 15),
-            new Movie("b", 20),
-            new Movie("c", 30),
-            new Movie("d", 40)
+            new Movie("a", 10, Genre.COMEDY),
+            new Movie("a", 15, Genre.COMEDY),
+            new Movie("b", 20, Genre.THRILLER),
+            new Movie("c", 30, Genre.ACTION),
+            new Movie("d", 40, Genre.ACTION)
     );
 
     public static void show() {
@@ -24,6 +24,33 @@ public class StreamsDemo {
         peekElementsInStreamDemo();
         reducersDemo();
         collectorsDemo();
+        groupingElementsDemo();
+        partitioningElementsDemo();
+    }
+
+    private static void partitioningElementsDemo() {
+        System.out.println("Partitioning Elements");
+        var moviesPartitionedByLikes = movies.stream()
+                .collect(
+                        Collectors.partitioningBy(
+                                movie -> movie.getLikes() > 20,
+                                Collectors.mapping(Movie::getTitle, Collectors.joining(", "))
+                                )
+                );
+        System.out.println(moviesPartitionedByLikes);
+    }
+
+    private static void groupingElementsDemo() {
+        System.out.println("Grouping Elements");
+        var movieGroupedByGenre = movies.stream()
+                .collect(
+                        Collectors
+                        .groupingBy(
+                                Movie::getGenre,
+                                Collectors.mapping(Movie::getTitle, Collectors.joining(", "))
+                        )
+                );
+        System.out.println(movieGroupedByGenre);
     }
 
     private static void collectorsDemo() {
@@ -148,11 +175,11 @@ public class StreamsDemo {
         //takeWhile vs filter()
         System.out.println("takeWhile() vs filter()");
         movies = List.of(
-                new Movie("a", 10),
-                new Movie("b", 30),
-                new Movie("c", 5),
-                new Movie("d", 20),
-                new Movie("e", 40)
+                new Movie("a", 10, Genre.ACTION),
+                new Movie("b", 30, Genre.THRILLER),
+                new Movie("c", 5, Genre.ACTION),
+                new Movie("d", 20, Genre.COMEDY),
+                new Movie("e", 40, Genre.COMEDY)
         );
         movies.stream()
                 .takeWhile(movie -> movie.getLikes() < 30)
