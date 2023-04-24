@@ -12,6 +12,23 @@ public class StreamsDemo {
         sliceStreamDemo();
         sortStreamDemo();
         uniqueElementsFromStreamDemo();
+        peekElementsInStreamDemo();
+    }
+
+    private static void peekElementsInStreamDemo() {
+        var movies = List.of(
+                new Movie("a", 10),
+                new Movie("a", 15),
+                new Movie("b", 20),
+                new Movie("c", 30),
+                new Movie("d", 40)
+        );
+
+        movies.stream()
+                .peek(movie -> System.out.println("filtered: " + movie.getTitle()))
+                .map(Movie::getTitle)
+                .peek(title -> System.out.println("mapped: " + title))
+                .forEach(System.out::println);
     }
 
     private static void uniqueElementsFromStreamDemo() {
