@@ -1,6 +1,8 @@
 package Streams;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StreamsDemo {
@@ -21,6 +23,33 @@ public class StreamsDemo {
         uniqueElementsFromStreamDemo();
         peekElementsInStreamDemo();
         reducersDemo();
+        collectorsDemo();
+    }
+
+    private static void collectorsDemo() {
+        System.out.println("Collectors Demonstration");
+
+        var resultList = movies.stream()
+                .filter(movie -> movie.getLikes() > 30).collect(Collectors.toList());
+        System.out.println(resultList);
+
+        var resultSet = movies.stream()
+                .filter(movie -> movie.getLikes() > 30).collect(Collectors.toSet());
+        System.out.println(resultSet);
+
+        var resultMap = movies.stream()
+                .filter(movie -> movie.getLikes() > 30).collect(Collectors.toMap(Movie::getTitle, Movie::getLikes));
+        System.out.println(resultMap);
+        var resultMovieMap = movies.stream()
+                .filter(movie -> movie.getLikes() > 30).collect(Collectors.toMap(Movie::getTitle, Function.identity()));
+        System.out.println(resultMovieMap);
+
+        var sum = movies.stream()
+                .filter(movie -> movie.getLikes() > 30).collect(Collectors.summingInt(Movie::getLikes));
+        System.out.println(sum);
+        var summarizing = movies.stream()
+                .filter(movie -> movie.getLikes() > 10).collect(Collectors.summarizingInt(Movie::getLikes));
+        System.out.println(summarizing);
     }
 
     private static void reducersDemo() {
