@@ -2,8 +2,22 @@ package Concurrency;
 
 public class ThreadDemo {
     public static void show() {
-        startPauseThreadDemo();
-        joinThreadDemo();
+//        startPauseThreadDemo();
+//        joinThreadDemo();
+        interruptThreadDemo();
+    }
+
+    private static void interruptThreadDemo() {
+        Thread thread = new Thread(new DownloadFileTask());
+        thread.start();
+
+        try {
+            thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        thread.interrupt();
     }
 
     private static void joinThreadDemo() {
