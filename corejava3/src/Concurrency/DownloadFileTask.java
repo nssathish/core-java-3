@@ -3,10 +3,10 @@ package Concurrency;
 public class DownloadFileTask implements Runnable {
 
     private DocumentStatus status;
+    
     public DownloadFileTask(DocumentStatus status) {
         this.status = status;
     }
-
     @Override
     public void run() {
         System.out.println("Downloading file: " + Thread.currentThread().getName());
@@ -28,5 +28,9 @@ public class DownloadFileTask implements Runnable {
             status.incrementTotalBytes();
         }
         System.out.println("Download complete: " + Thread.currentThread().getName());
+    }
+
+    public DocumentStatus getStatus() {
+        return status;
     }
 }

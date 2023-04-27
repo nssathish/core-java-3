@@ -1,13 +1,45 @@
 package Concurrency;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ThreadDemo {
     public static void show() {
 //        startPauseThreadDemo();
 //        joinThreadDemo();
 //        interruptThreadDemo();
-        RaceConditionDemo();
+//        RaceConditionDemo();
+        confinementDemo();
+    }
+
+    private static void confinementDemo() {
+        List<DownloadFileTask> taskList = new ArrayList<>();
+        List<Thread> threadList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            var downloadFileTaskStatus = new DocumentStatus();
+            var downloadFileTask = new DownloadFileTask(downloadFileTaskStatus);
+            Thread thread = new Thread(downloadFileTask);
+            thread.start();
+            threadList.add(thread);
+            taskList.add(downloadFileTask);
+        }
+
+        for (var thread :
+                threadList) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        var totalBytesDownloaded = taskList.stream()
+                .map(t -> t.getStatus().getTotalBytes())
+                .reduce(Integer::sum)
+                .get();
+
+        System.out.println(totalBytesDownloaded);
     }
 
     private static void RaceConditionDemo() {
