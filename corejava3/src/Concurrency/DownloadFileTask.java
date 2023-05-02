@@ -3,7 +3,7 @@ package Concurrency;
 public class DownloadFileTask implements Runnable {
 
     private DocumentStatus status;
-    
+
     public DownloadFileTask(DocumentStatus status) {
         this.status = status;
     }

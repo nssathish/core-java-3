@@ -1,5 +1,6 @@
 package Concurrency;
 
+import javax.swing.text.Document;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,29 @@ public class ThreadDemo {
 //        joinThreadDemo();
 //        interruptThreadDemo();
 //        RaceConditionDemo();
-        confinementDemo();
+//        confinementDemo();
+        locksDemo();
+    }
+
+    private static void locksDemo() {
+        List<Thread> threadList = new ArrayList<>();
+        var status = new DocumentStatus();
+        for (int i = 0; i < 10; i++) {
+            Thread thread = new Thread(new DownloadFileTask(status));
+            thread.start();
+            threadList.add(thread);
+        }
+
+        for (var thread :
+                threadList) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        System.out.println(status.getTotalBytes());
     }
 
     private static void confinementDemo() {
