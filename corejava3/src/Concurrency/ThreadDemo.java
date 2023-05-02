@@ -11,7 +11,19 @@ public class ThreadDemo {
 //        interruptThreadDemo();
 //        RaceConditionDemo();
 //        confinementDemo();
-        locksDemo();
+//        locksDemo();
+        volatileDemo();
+    }
+
+    private static void volatileDemo() {
+        var status = new DocumentStatus();
+        Thread thread1 = new Thread(new DownloadFileTask(status));
+        Thread thread2 = new Thread(() -> {
+            while(!status.isDone()) {}
+            System.out.println(status.getTotalBytes());
+        });
+        thread1.start();
+        thread2.start();
     }
 
     private static void locksDemo() {
