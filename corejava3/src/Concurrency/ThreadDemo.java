@@ -12,7 +12,28 @@ public class ThreadDemo {
 //        RaceConditionDemo();
 //        confinementDemo();
 //        locksDemo();
-        volatileDemo();
+//        volatileDemo();
+        waitAndNotifyDemo();
+    }
+
+    private static void waitAndNotifyDemo() {
+        var status = new DocumentStatus();
+        Thread thread1 = new Thread(new DownloadFileTask(status));
+        Thread thread2 = new Thread(() -> {
+            while(!status.isDone()) {
+                synchronized (status) {
+                    try {
+                        status.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            System.out.println(status.getTotalBytes());
+        });
+
+        thread1.start();
+        thread2.start();
     }
 
     private static void volatileDemo() {
