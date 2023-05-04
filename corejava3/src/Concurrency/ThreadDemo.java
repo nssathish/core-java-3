@@ -1,8 +1,9 @@
 package Concurrency;
 
 import javax.swing.text.Document;
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ThreadDemo {
     public static void show() {
@@ -14,7 +15,51 @@ public class ThreadDemo {
 //        locksDemo();
 //        volatileDemo();
 //        waitAndNotifyDemo();
-        atomicObjectsAddersDemo();
+//        atomicObjectsAddersDemo();
+//        synchronizedCollectionDemo();
+        concurrentCollectionDemo();
+    }
+
+    private static void concurrentCollectionDemo() {
+        Map<String, Integer> map = new ConcurrentHashMap<>();
+
+        Thread thread1 = new Thread(() -> map.putAll(Map.of("a", 1, "b", 2, "c", 3)));
+        Thread thread2 = new Thread(() -> map.putAll(Map.of("d", 4, "e", 5, "f", 6)));
+
+        thread1.start();
+        thread2.start();
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(map);
+    }
+
+    private static void synchronizedCollectionDemo() {
+//        Collection<Integer> collection = new ArrayList<>(); // this prints just [4, 5, 6] because of race condition
+
+        Collection<Integer> collection = Collections.synchronizedCollection(
+                new ArrayList<>()
+        );
+
+        Thread thread1 = new Thread(() -> collection.addAll(Arrays.asList(1, 2, 3)));
+        Thread thread2 = new Thread(() -> collection.addAll(Arrays.asList(4, 5, 6)));
+
+        thread1.start();
+        thread2.start();
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(collection);
     }
 
     private static void atomicObjectsAddersDemo() {
