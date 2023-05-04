@@ -1,10 +1,18 @@
 package Concurrency;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 
 public class DocumentStatus {
     //private int totalBytes;
-    private AtomicInteger totalBytes = new AtomicInteger(); // this atomic objects are amazing to
+
+    // Atomic objects
+    // --------------
+//    private AtomicInteger totalBytes = new AtomicInteger(); // this atomic objects are amazing to
+
+    // Adders
+    // ------
+    private LongAdder totalBytes = new LongAdder();
     // replace synchronization for counter variables
     // this makes clear that the threads go out of sync because
     // of the assembly level operations
@@ -15,14 +23,17 @@ public class DocumentStatus {
 //    private Object totalFilesLock = new Object();
 
     public int getTotalBytes() {
-        return totalBytes.get();
+        //return totalBytes;
+//        return totalBytes.get(); //Atomic object invokation
+        return totalBytes.intValue();
     }
 
     public void incrementTotalBytes() {
 //        lock.lock();
 //        synchronized (this) {  // comes with a default 'ONLY ONE monitor object'
 //        synchronized (totalBytesLock) { //separate locks for separate monitoring
-            totalBytes.incrementAndGet();
+//            totalBytes.incrementAndGet(); // Atomic objects increment
+        totalBytes.increment();
 //        }
 //        lock.unlock();
     }

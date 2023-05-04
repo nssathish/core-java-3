@@ -14,10 +14,10 @@ public class ThreadDemo {
 //        locksDemo();
 //        volatileDemo();
 //        waitAndNotifyDemo();
-        atomicObjectsDemo();
+        atomicObjectsAddersDemo();
     }
 
-    private static void atomicObjectsDemo() {
+    private static void atomicObjectsAddersDemo() {
         var status = new DocumentStatus();
         List<Thread> threadList = new ArrayList<>();
 
