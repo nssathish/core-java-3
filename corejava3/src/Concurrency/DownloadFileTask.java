@@ -23,7 +23,7 @@ public class DownloadFileTask implements Runnable {
 //            System.out.println("Downloaded byte  " + i);
 //        }
 
-        for (int i = 0; i < 1_000_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             if(Thread.currentThread().isInterrupted()) return;
             status.incrementTotalBytes();
         }

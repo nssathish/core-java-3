@@ -13,7 +13,29 @@ public class ThreadDemo {
 //        confinementDemo();
 //        locksDemo();
 //        volatileDemo();
-        waitAndNotifyDemo();
+//        waitAndNotifyDemo();
+        atomicObjectsDemo();
+    }
+
+    private static void atomicObjectsDemo() {
+        var status = new DocumentStatus();
+        List<Thread> threadList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Thread thread = new Thread(new DownloadFileTask(status));
+            threadList.add(thread);
+            thread.start();
+        }
+
+        for (var thread :
+                threadList) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        System.out.println(status.getTotalBytes());
     }
 
     private static void waitAndNotifyDemo() {
