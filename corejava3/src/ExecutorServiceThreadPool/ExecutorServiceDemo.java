@@ -1,10 +1,31 @@
 package ExecutorServiceThreadPool;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
 public class ExecutorServiceDemo {
     public static void show() {
-        fixedThreadPoolDemo();
+//        fixedThreadPoolDemo();
+        callableFutureDemo();
+    }
+
+    private static void callableFutureDemo() {
+        var executor = Executors.newFixedThreadPool(2);
+        try {
+            var future = executor.submit(() -> {
+                LoadTask.load();
+                return 1;
+            });
+            System.out.println("Do something");
+            try {
+                System.out.println(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        finally {
+            executor.shutdown();
+        }
     }
 
     private static void fixedThreadPoolDemo() {
