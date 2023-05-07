@@ -1,7 +1,7 @@
 package ExecutorServiceThreadPool;
 
 public class LoadTask {
-    public static void load() {
+    public static void simulate() {
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
