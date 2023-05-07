@@ -15,9 +15,35 @@ public class ExecutorServiceDemo {
     }
 
     private static void completableFutureDemo() {
+/*
         createCompletableFuture();
         asynchronousAPIUsingCompletableFuture();
         asynchronousAPIUsingCompletableFutureAsync();
+*/
+        callBackOnCompletion();
+    }
+
+    private static void callBackOnCompletion() {
+        var future = CompletableFuture.supplyAsync(() -> 101);
+        future.thenRun(() -> {
+            System.out.println(Thread.currentThread().getName()); //since thenRun() is a synchronous process
+            // it's getting called from the 'main' thread
+            System.out.println("Done");
+        });
+        future.thenRunAsync(() -> {
+            System.out.println(Thread.currentThread().getName()); // since thenRunAsync is an asynchronous process
+            // it's getting called from the 'asynchronous thread' not the 'main' thread
+            System.out.println("Done");
+        });
+
+        future.thenAccept((result) -> {
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(result);
+        });
+        future.thenAcceptAsync((result) -> {
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(result);
+        });
     }
 
     private static void asynchronousAPIUsingCompletableFutureAsync() {
