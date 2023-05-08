@@ -19,8 +19,24 @@ public class ExecutorServiceDemo {
         createCompletableFuture();
         asynchronousAPIUsingCompletableFuture();
         asynchronousAPIUsingCompletableFutureAsync();
-*/
         callBackOnCompletion();
+*/
+        completableFutureExceptionHandling();
+    }
+
+    private static void completableFutureExceptionHandling() {
+        var future = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Getting current weather of the city");
+            throw new IllegalStateException();
+        });
+
+        try {
+            //System.out.println(future.get());     // The regular call throws the exception
+            System.out.println(future.exceptionally(ex -> 1).get()); // 'exceptoinally' will consume the
+            // exception and return the value passed
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void callBackOnCompletion() {
