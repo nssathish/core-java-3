@@ -20,8 +20,19 @@ public class ExecutorServiceDemo {
         asynchronousAPIUsingCompletableFuture();
         asynchronousAPIUsingCompletableFutureAsync();
         callBackOnCompletion();
-*/
         completableFutureExceptionHandling();
+*/
+        transformCompletableFutureDemo();
+    }
+
+    private static int toFahrenheit(int celsius) {
+        return (int) (celsius * 1.8) + 32;
+    }
+    private static void transformCompletableFutureDemo() {
+        var future = CompletableFuture.supplyAsync(() -> 20);
+        future
+                .thenApplyAsync(ExecutorServiceDemo::toFahrenheit)
+                .thenAcceptAsync(System.out::println);
     }
 
     private static void completableFutureExceptionHandling() {
