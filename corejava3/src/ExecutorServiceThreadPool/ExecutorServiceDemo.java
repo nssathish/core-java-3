@@ -21,10 +21,39 @@ public class ExecutorServiceDemo {
         asynchronousAPIUsingCompletableFutureAsync();
         callBackOnCompletion();
         completableFutureExceptionHandling();
-*/
         transformCompletableFutureDemo();
+*/
+        composeAndCombineCompletableFuturesDemo();
     }
 
+    private static void composeAndCombineCompletableFuturesDemo() {
+        composeCompletableFutureDemo();
+        combineCompletableFutureDemo();
+    }
+
+    private static void combineCompletableFutureDemo() {
+//        var first = CompletableFuture.supplyAsync(() -> 20);
+        var first = CompletableFuture.supplyAsync(() -> "20USD")
+                .thenApplyAsync(price -> price.replaceAll("USD",""))
+                .thenApplyAsync(Integer::parseInt);
+        var second = CompletableFuture.supplyAsync(() -> 0.9);
+        first
+                .thenCombineAsync(second, (price, exchangeRate) -> price * exchangeRate)
+                .thenAccept(System.out::println);
+    }
+
+    private static void composeCompletableFutureDemo() {
+        getUserEmail()
+                .thenComposeAsync(ExecutorServiceDemo::getPlaylistAsync)
+                .thenAcceptAsync(System.out::println);
+    }
+
+    private static CompletableFuture<String> getUserEmail() {
+        return CompletableFuture.supplyAsync(() -> "email");
+    }
+    private static CompletableFuture<String> getPlaylistAsync(String email) {
+        return CompletableFuture.supplyAsync(() -> "playlist");
+    }
     private static int toFahrenheit(int celsius) {
         return (int) (celsius * 1.8) + 32;
     }
