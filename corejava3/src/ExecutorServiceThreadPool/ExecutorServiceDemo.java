@@ -1,17 +1,35 @@
 package ExecutorServiceThreadPool;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ExecutorServiceDemo {
     public static void show() {
 /*
         fixedThreadPoolDemo();
         callablesAndFuturesDemo();
-*/
         completableFutureDemo();
+*/
+        var start = LocalTime.now();
+        var service = new FlightService();
+        var futures = service.getQuotes()
+                .map(future -> future.thenAccept(System.out::println))
+                .collect(Collectors.toList());
+
+        CompletableFuture
+                .allOf(futures.toArray(new CompletableFuture[0]))
+                        .thenRunAsync(() -> {
+                            var end = LocalTime.now();
+                            var duration = Duration.between(start, end);
+                            System.out.println("Retrieved quotes from all sites in " + duration.toMillis() + " msec.");
+                        });
+
+        LoadTask.simulate();
     }
 
     private static void completableFutureDemo() {
