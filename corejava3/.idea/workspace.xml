@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="535f24c4-9c2a-47d5-b35f-0cf23a19ce60" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ExecutorServiceThreadPool/FlightService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ExecutorServiceThreadPool/Quote.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ExecutorServiceThreadPool/ExecutorServiceDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ExecutorServiceThreadPool/ExecutorServiceDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ExecutorServiceThreadPool/LoadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ExecutorServiceThreadPool/LoadTask.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +106,19 @@
       <option name="presentableId" value="Default" />
       <updated>1681292011071</updated>
     </task>
+    <task id="LOCAL-00001" summary="Code with Mosh Flightservice quote">
+      <created>1685733759453</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1685733759453</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Code with Mosh Flightservice quote" />
+    <option name="LAST_COMMIT_MESSAGE" value="Code with Mosh Flightservice quote" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
