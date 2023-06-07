@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -40,8 +41,69 @@ public class ExecutorServiceDemo {
         callBackOnCompletion();
         completableFutureExceptionHandling();
         transformCompletableFutureDemo();
-*/
         composeAndCombineCompletableFuturesDemo();
+        waitingForTasksDemo();
+        handleTimeoutDemo();
+*/
+        var service = new FlightService();
+//        service.getQuote("site")
+//                .thenAcceptAsync(System.out::println);
+
+        var start = LocalTime.now();
+
+        var futures = service.getQuotes()
+                .map(future -> future.thenAcceptAsync(System.out::println))
+                .collect(Collectors.toList());
+
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                .thenRunAsync(() -> {
+                    var end = LocalTime.now();
+                    var duration = Duration.between(start, end);
+                    System.out.println("Retrieved all quotes in " + duration.toMillis() + " msec.");
+                });
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void handleTimeoutDemo() {
+        var first = CompletableFuture.supplyAsync(() -> {
+            LoadTask.simulate();
+            return 1;
+        });
+
+        first.orTimeout(1, TimeUnit.SECONDS);
+//                .thenRunAsync(() -> System.out.println("Task took more than 1 second"));
+    }
+
+    private static void waitingForTasksDemo() {
+        var first = CompletableFuture.supplyAsync(() -> 1);
+        var second = CompletableFuture.supplyAsync(() -> 2);
+        var third = CompletableFuture.supplyAsync(() -> 3);
+
+        CompletableFuture.allOf(first, second, third)
+                .thenRunAsync(() -> {
+                    try {
+                        var firstResult = first.get();
+                        System.out.println(firstResult);
+                    } catch (InterruptedException | ExecutionException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("All tasks completed");
+                });
+
+        var future1 = CompletableFuture.supplyAsync(() -> {
+//            LoadTask.simulate();
+            System.out.println("first completed");
+            return 1;
+        });
+        CompletableFuture.anyOf(future1, second) // with the LoadTask.simulate 'future1' completes after 'second'
+                // so we don't see the sout from future1
+                // but if the LoadTask.simulate is removed
+                // we can see that 'future1' completes first, and we see the sout msg
+                .thenRunAsync(() -> System.out.println("Any one thread completed"));
     }
 
     private static void composeAndCombineCompletableFuturesDemo() {

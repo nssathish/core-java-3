@@ -8,4 +8,11 @@ public class LoadTask {
             throw new RuntimeException(e);
         }
     }
+    public static void simulate(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
